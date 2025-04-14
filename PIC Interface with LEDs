@@ -1,0 +1,101 @@
+/*
+#include<p18f4580.h>
+#define Dir_S2 TRISDbits.RD0
+#define Dir_S1 TRISDbits.RD1
+
+#define S2	PORTDbits.RD0
+#define S1	PORTDbits.RD1
+
+void delay(int a);
+
+void main(){
+int arr[]={0x3f,0x06,0x5b,0x4f,0x66,0x6d,0x7d,0x07,0x7f,0x67};
+int i,a,b, cnt=0;
+
+ TRISC=0x00;	// make all pins as o/p
+ Dir_S1=0;		// configure the pin as o/p
+ Dir_S2=0;
+	
+	S1=1;
+	S2=1;	
+	while(1){
+		
+	a = cnt/10;
+	b = cnt%10;
+	 
+	 PORTC = arr[a];
+	 S1=1;
+	 delay(100);
+	 S1=0;
+
+	 PORTC = arr[b];
+	 S2=1;
+	 delay(100);
+	 S2=0;
+
+	if(cnt>=100){
+		cnt=0;
+	
+	}
+ 	cnt++;
+
+	}
+}
+
+void delay(int a)
+{	int i,j;
+ for(i=0; i<a; i++)
+ for(j=0; j<i; j++);
+}
+*/
+
+#include<p18f4580.h>
+
+void delay(int a);
+
+#define S1   PORTDbits.RD0
+#define S2   PORTDbits.RD1
+
+#define Dir_S1   TRISDbits.RD0
+#define Dir_S2   TRISDbits.RD1
+
+void main()
+{
+	int i;
+	int temp1,temp2;
+	char array[]={0XC0,0XF9,0XA4,0XB0,0X99,0X92,0X82,0XF8,0X80,0X90};
+	
+	//TRISC=0X00;
+	Dir_S1=0;
+	Dir_S2=0;
+
+  while(1)
+  {
+	for(i=0;i<=99;i++)
+	{
+		PORTC=0x00;
+		
+		S1=1;
+		S2=0;
+		
+		temp1=i%10;		// 2%10 
+		PORTC=array[temp1];	// arr[1]
+		delay(200);
+		
+		S1=0;
+		S2=1;
+		
+		temp2=i/10;		// 2/10 =0
+		PORTC=array[temp2];	// arr[0]
+		delay(100);
+	}
+
+ }
+
+}
+void delay(int a)
+{
+int i,j;
+for(i=0;i<a;i++)
+for(j=0;j<=i;j++);
+}
